@@ -22,7 +22,3 @@ function crispyCanvas(canvas, ctx, width, height) {
     .style('height', height + 'px');
   ctx.scale(sf, sf);
 }
-
-function pixelPos(ra, dec, projection) {
-  return projection([-ra * (360 / 24), dec]);
-}

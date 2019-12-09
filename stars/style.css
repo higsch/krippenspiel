@@ -9,7 +9,15 @@ html, body {
 }
 
 #star-map {
+  position: absolute;
   width: 100%;
   height: 100%;
   background-color: black;
+}
+
+#shooting-stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
 }
