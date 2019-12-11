@@ -6,6 +6,7 @@
     <script src="starTime.js"></script>
     <script src="createStarMap.js"></script>
     <script src="createShootingStars.js"></script>
+    <script src="createChristmasStar.js"></script>
 
     <link href="style.css" rel="stylesheet">
   </head>
@@ -18,6 +19,8 @@
     </div>
 
     <div id="shooting-stars"></div>
+
+    <div id="christmas-star"></div>
 
     <script>
       setup();
@@ -45,6 +48,8 @@
           latlon = [31.704288, 35.207655]); // Bethlehem
 
         createShootingStars('#shooting-stars');
+
+        createChristmasStar('#christmas-star');
       }
 
     </script>

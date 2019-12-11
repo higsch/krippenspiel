@@ -60,7 +60,6 @@ function createStarMap(target, stars, latlon) {
 
     // turn to correct position and time
     const raOffset = getLSTInDeg(new Date(), latlon[1]); // depending on date the sky is turned
-    console.log(raOffset)
     projection.rotate([-raOffset, -latlon[0], 180]);
 
     stars.forEach((d) => {
