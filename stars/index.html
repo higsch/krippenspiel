@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <head>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.6/chroma.min.js"></script>
+    <script src="lib/d3.v5.min.js"></script>
+    <script src="lib/chroma.min.js"></script>
     <script src="main.js"></script>
     <script src="starTime.js"></script>
     <script src="createStarMap.js"></script>
@@ -11,6 +11,12 @@
   </head>
   <body>
     <div id="star-map"></div>
+
+    <div class="title-wrapper">
+      <h1>Die Weihnachtsgeschichte</h1>
+      <h2>– Heute stellen wir alles in den Schatten –</h2>
+    </div>
+
     <div id="shooting-stars"></div>
 
     <script>
@@ -36,7 +42,6 @@
         createStarMap(
           '#star-map',
           starsVisible,
-          date = new Date(),
           latlon = [31.704288, 35.207655]); // Bethlehem
 
         createShootingStars('#shooting-stars');

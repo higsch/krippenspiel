@@ -2,6 +2,8 @@ function createShootingStars(target) {
   // ========= Constants ========= //
   const width = document.querySelector(target).offsetWidth;
   const height = document.querySelector(target).offsetHeight;
+  const minTimeToNext = 5000;
+  const maxTimeToNext = 20000;
 
   // ========= Create canvas ========= //
   const canvas = d3.select(target).append('canvas')
@@ -16,7 +18,7 @@ function createShootingStars(target) {
     .attr('height', height);
 
   const headRadii = [3, 4, 5, 8];
-  const speeds = [10, 15, 20];
+  const speeds = [20, 25, 35];
   const shootingLengths = [20, 40, 60];
   const starColors = ['#9db4ff', '#aabfff', '#cad8ff', '#fbf8ff', '#fff4e8', '#ffddb4'];
 
@@ -61,7 +63,7 @@ function createShootingStars(target) {
         headRadius = randomArrayElement(headRadii);
         speed = randomArrayElement(speeds);
         shootingLength = randomArrayElement(shootingLengths);
-        setTimeout(fly, Math.min(2000, Math.round(Math.random() * 10000)));
+        setTimeout(fly, Math.min(minTimeToNext, Math.round(Math.random() * maxTimeToNext)));
       }
     }
     

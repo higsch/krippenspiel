@@ -1,4 +1,4 @@
-function createStarMap(target, stars, date, latlon) {
+function createStarMap(target, stars, latlon) {
   // data from and inspired by http://www.datasketch.es/may/code/nadieh/
   // inspiration by https://observablehq.com/@mbostock/star-map
   
@@ -36,9 +36,6 @@ function createStarMap(target, stars, date, latlon) {
 
   // get the clipping radius
   const clipRadius = height / 2 - projection([0, 0])[1];
-  // turn to correct position and time
-  const raOffset = getLSTInDeg(date, latlon[1]); // depending on date the sky is turned
-  projection.rotate([-raOffset, -latlon[0], 180]);
   
   // ========= Create the star circles ========= //
   // --- create canvas
@@ -58,33 +55,44 @@ function createStarMap(target, stars, date, latlon) {
   ctx.arc(width / 2, height / 2, clipRadius, 0, Math.PI * 2);
   ctx.clip();
 
-  stars.forEach((d) => {
-    // get pixel coordinates on the screen
-    const pos = projection([d.ra * (360 / 24), d.dec]);
-  
-    // if this star falls outside of the map, don't plot
-    if (pos[0] < 0 || pos[0] > width || pos[1] < 0 || pos[1] > height) return;
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
 
-    // star depen dend settings
-    let r = scaleRadius(d.mag);
-    let col = d.t_eff ? scaleColor(d.t_eff) : 'white';
+    // turn to correct position and time
+    const raOffset = getLSTInDeg(new Date(), latlon[1]); // depending on date the sky is turned
+    console.log(raOffset)
+    projection.rotate([-raOffset, -latlon[0], 180]);
 
-    // create a gradient to fill each star with: lighter in center and darker around edges
-    let grd = ctx.createRadialGradient(pos[0], pos[1], 1, pos[0], pos[1], r * 1.1);
-    const brightCol = chroma(col).brighten(1);
-    const darkCol = chroma(col).saturate(3).darken(1);
-    grd.addColorStop(0, brightCol);
-    grd.addColorStop(0.6, col);
-    grd.addColorStop(1, darkCol);
-    ctx.fillStyle = grd;
+    stars.forEach((d) => {
+      // get pixel coordinates on the screen
+      const pos = projection([d.ra * (360 / 24), d.dec]);
     
-    // create a glow around each star
-    ctx.shadowColor = col;
+      // if this star falls outside of the map, don't plot
+      if (pos[0] < 0 || pos[0] > width || pos[1] < 0 || pos[1] > height) return;
 
-    // draw the star
-    ctx.beginPath()
-    ctx.arc(pos[0], pos[1], r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
-  });
+      // star depen dend settings
+      let r = scaleRadius(d.mag);
+      let col = d.t_eff ? scaleColor(d.t_eff) : 'white';
+
+      // create a gradient to fill each star with: lighter in center and darker around edges
+      let grd = ctx.createRadialGradient(pos[0], pos[1], 1, pos[0], pos[1], r * 1.1);
+      const brightCol = chroma(col).brighten(1);
+      const darkCol = chroma(col).saturate(3).darken(1);
+      grd.addColorStop(0, brightCol);
+      grd.addColorStop(0.6, col);
+      grd.addColorStop(1, darkCol);
+      ctx.fillStyle = grd;
+      
+      // create a glow around each star
+      ctx.shadowColor = col;
+
+      // draw the star
+      ctx.beginPath()
+      ctx.arc(pos[0], pos[1], r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+    });
+  }
+
+  draw();
 }
