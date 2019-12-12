@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+#star-map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom right, #05112D, #071740);
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Verdana';
+  font-size: 100px;
+  font-weight: lighter;
+  font-variant: small-caps;
+  color: #FFF;
+  text-shadow: 0 0 12px #FFF;
+}
+
+h2 {
+  margin-top: 20px;
+  color: #ffddb4;
+  font-family: 'Verdana';
+  font-size: 30px;
+  font-weight: normal;
+  text-shadow: 0 0 2px #ffddb4;
+}
+
+#shooting-stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+#christmas-star {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
