@@ -6,6 +6,7 @@ function createChristmasStar(target) {
   const polyHeight = 170;
   const poly = `0,${-polyHeight / 2} ${polyWidth / 2},0 0,${polyHeight / 2} ${-polyWidth / 2},0`;
   const position = `${width - polyHeight} ${polyHeight}`;
+  const rotationDuration = 50000;
 
   const svg = d3.select(target).append('svg')
     .attr('width', width)
@@ -32,9 +33,11 @@ function createChristmasStar(target) {
     .attr('offset', '100%')
     .attr('stop-color', 'white');
 
-  const starGroup = svg.append('g')
-    .attr('class', 'star-poly')
+  const starGroupWrapper = svg.append('g')
     .attr('transform', `translate(${position})`);
+  
+  const starGroup = starGroupWrapper.append('g')
+    .attr('class', 'star-poly');
 
   for (let i = 0; i < 360; i += 90) {
     starGroup.append('polygon')
@@ -55,4 +58,15 @@ function createChristmasStar(target) {
   starGroup.append('circle')
     .attr('r', polyHeight / 14)
     .attr('fill', 'white');
+
+  function turn() {
+    starGroup
+      .transition()
+      .duration(rotationDuration)
+      .ease(d3.easeLinear)
+      .attrTween('transform', () => d3.interpolateString('rotate(0)', 'rotate(360)'))
+      .on('end', turn);
+  }
+
+  turn();
 }
