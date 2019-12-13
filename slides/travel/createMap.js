@@ -33,30 +33,18 @@ function createMap(target) {
     .attr('transform', `translate(${path.translate})`)
     .attr('stroke', '#DE3C4B')
     .attr('stroke-width', 5)
-    .attr('fill', 'none');
+    .attr('fill', 'none')
+    .attr('stroke-linecap', 'round');
 
   path.length = travelPath.node().getTotalLength();
 
-  const dashing = '3, 3'
-
-  const dashLength = dashing
-                      .split(/[\s,]/)
-                      .map(a => parseFloat(a) || 0 )
-                      .reduce((a, b) => a + b );
-
-  const dashCount = Math.ceil(path.length / dashLength);
-
-  const newDashes = new Array(dashCount).join( dashing + " " );
-
-  const dashArray = newDashes + ' 0, ' + path.length;
-
   travelPath
-    .attr('stroke-dasharray', dashArray)
+    .attr('stroke-dasharray', path.length + ' ' + path.length)
     .attr('stroke-dashoffset', path.length);
 
   function animateTravel() {
     travelPath.transition()
-      .duration(10000)
+      .duration(15000)
       .ease(d3.easeLinear)
       .attr('stroke-dashoffset', 0);
   }
