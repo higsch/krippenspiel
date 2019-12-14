@@ -3,11 +3,11 @@ function createChristmasStar(target) {
   // ========= Constants ========= //
   const width = document.querySelector(target).offsetWidth;
   const height = document.querySelector(target).offsetHeight;
-  const polyWidth = 40;
-  const polyHeight = 250;
+  const polyWidth = 20;
+  const polyHeight = 180;
   const poly = `0,${-polyHeight / 2} ${polyWidth / 2},0 0,${polyHeight / 2} ${-polyWidth / 2},0`;
   const position = `${width - polyHeight} ${polyHeight}`;
-  const rotationDuration = 60000;
+  const rotationDuration = 50000;
 
   // ========= Create SVG ========= //
   const svg = d3.select(target).append('svg')
