@@ -44,7 +44,7 @@ function createMap(target) {
 
   function animateTravel() {
     travelPath.transition()
-      .duration(15000)
+      .duration(25000)
       .ease(d3.easeLinear)
       .attr('stroke-dashoffset', 0);
   }
@@ -73,5 +73,5 @@ function createMap(target) {
       .attr('font-size', '20px')
       .text(d => d.name);
 
-  setTimeout(animateTravel, 2000);
+  setTimeout(animateTravel, 1000);
 }

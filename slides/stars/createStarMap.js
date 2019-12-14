@@ -5,7 +5,7 @@ function createStarMap(target, stars, latlon) {
   // ========= Setup dimensions and constants ========= //
   const width = document.querySelector(target).offsetWidth;
   const height = document.querySelector(target).offsetHeight;
-  const scale = 800;
+  const scale = 1000;
   
   // ========= Setup scales ========= //
   // star colors
