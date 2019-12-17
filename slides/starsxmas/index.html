@@ -8,6 +8,21 @@
     <div id="christmas-star"></div>
 
     <script>
+      var _transitions = [
+        {
+          transitionForward: () => moveFromTo(1, 0.7, d3.easeCubicOut),
+          index: 0
+        },
+        {
+          transitionForward: () => moveFromTo(0.7, 1, d3.easeCubicIn),
+          index: 3
+        },
+        {
+          transitionForward: () => moveFromTo(0, 1, d3.easeLinear),
+          index: 4
+        }
+      ];
+
       const target = '#christmas-star';
       // ========= Constants ========= //
       const width = document.querySelector(target).offsetWidth;
@@ -15,8 +30,12 @@
       const polyWidth = 40;
       const polyHeight = 250;
       const poly = `0,${-polyHeight / 2} ${polyWidth / 2},0 0,${polyHeight / 2} ${-polyWidth / 2},0`;
-      const position = `${width - polyHeight} ${polyHeight}`;
+      const position = {
+        x: -polyHeight,
+        y: 0
+      };
       const rotationDuration = 60000;
+      const flyOverDuration = 30000;
 
       // ========= Create SVG ========= //
       const svg = d3.select(target).append('svg')
@@ -50,7 +69,7 @@
 
       // ========= Star groups ========= //
       const starGroupWrapper = svg.append('g')
-        .attr('transform', `translate(${position})`);
+        .attr('transform', `translate(${position.x} ${position.y})`);
       
       const starGroup = starGroupWrapper.append('g')
         .attr('class', 'star-poly');
@@ -87,6 +106,31 @@
       }
 
       turn();
+
+      // ========= Moving animations ========= //
+      // moving path
+      const path = svg.append('path')
+        .attr('id', 'moving-path')
+        .attr('d', `M ${-polyHeight / 2},300 Q ${width / 2},-50 ${width + polyHeight / 2},300`)
+        .attr('stroke', 'none')
+        .attr('fill', 'none');
+
+      function translateAlong(path, start, stop) {
+        const l = path.getTotalLength() * Math.abs(start - stop);
+        const reverse = start > stop;
+        const remaining = reverse ? path.getTotalLength() - l : start * path.getTotalLength();
+        return function(t) {
+          const p = path.getPointAtLength((reverse ? 1-t : t) * l + remaining);
+          return 'translate(' + p.x + ',' + p.y + ')';
+        }
+      }
+
+      function moveFromTo(start, stop, ease) {
+        starGroupWrapper
+          .transition().duration(flyOverDuration * Math.abs(start - stop))
+          .ease(ease)
+          .attrTween('transform', () => translateAlong(path.node(), start, stop));
+      }
     </script>
   </body>
 </html>

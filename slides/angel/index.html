@@ -11,11 +11,11 @@
       var _transitions = [
         {
           transitionForward: () => increase(),
-          index: 0
+          index: 1
         },
         {
           transitionForward: () => decrease(),
-          index: 1
+          index: 2
         }
       ];
 
@@ -24,7 +24,7 @@
       // ========= Setup dimensions and constants ========= //
       const width = document.querySelector(target).offsetWidth;
       const height = document.querySelector(target).offsetHeight;
-      const position = `${width - 200} ${300}`;
+      const position = `${width - width * 0.3} ${300}`;
       const initialRadius = 0;
       const finalRadius = 500;
       const duration = 10000;
