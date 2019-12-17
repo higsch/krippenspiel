@@ -8,9 +8,8 @@ html, body {
   height: 100%;
 }
 
-#star-map {
-  position: absolute;
+#light {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to bottom left, #05112D, #1e3570);
+  background-color: transparent;
 }

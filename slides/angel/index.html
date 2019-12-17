@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+  <head>
+    <script src="lib/d3.v5.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="light"></div>
+
+    <script>
+      var _transitions = [
+        {
+          transitionForward: () => increase(),
+          index: 0
+        },
+        {
+          transitionForward: () => decrease(),
+          index: 1
+        }
+      ];
+
+      const target = '#light'
+      
+      // ========= Setup dimensions and constants ========= //
+      const width = document.querySelector(target).offsetWidth;
+      const height = document.querySelector(target).offsetHeight;
+      const position = `${width - 200} ${300}`;
+      const initialRadius = 0;
+      const finalRadius = 500;
+      const duration = 10000;
+
+      // ========= Create SVG ========= //
+      const svg = d3.select(target).append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      // ========= Defs ========= //
+      const defs = svg.append('defs');
+
+      // ========= Blur filter ========= //
+      defs.append('filter')
+        .attr('id', 'filter-blur')
+        .append('feGaussianBlur')
+          .attr('in', 'SourceGraphic')
+          .attr('stdDeviation', 7);
+
+      // ========= Color gradient ========= //
+      const gradient = defs.append('radialGradient')
+        .attr('id', 'light-gradient')
+        .attr('cx', '50%')
+        .attr('cy', '50%')
+        .attr('r', '50%');
+
+      gradient.append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', '#ffffffff');
+
+      gradient.append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', '#ffffff00');
+
+      // ========= Light groups ========= //
+      const lightGroupWrapper = svg.append('g')
+        .attr('transform', `translate(${position})`);
+      
+      const lightGroup = lightGroupWrapper.append('g')
+        .attr('class', 'light');
+
+      // ========= Create light ========= //
+      const inner = lightGroup.append('circle')
+        .attr('r', initialRadius)
+        .attr('fill', 'url(#light-gradient)')
+        .attr('filter', 'url(#filter-blur)');
+
+      const outer = lightGroup.append('circle')
+        .attr('r', initialRadius * 2)
+        .attr('fill', 'url(#light-gradient)')
+        .attr('filter', 'url(#filter-blur)');
+
+      function increase() {
+        inner
+          .transition().duration(duration)
+          .ease(d3.easeBackOut)
+          .attr('r', finalRadius);
+
+        outer
+          .transition().duration(duration)
+          .attr('r', finalRadius * 2);
+      }
+
+      function decrease() {
+        inner
+          .transition().duration(duration)
+          .attr('r', 0);
+
+        outer
+        .transition().duration(duration)
+        .attr('r', 0);
+      }
+    </script>
+  </body>
+</html>
