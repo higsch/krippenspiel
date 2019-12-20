@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+  <head>
+    <script src="../lib/d3.v5.min.js"></script>
+    <script src="../lib/chroma.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="background-img">
+      <img src="../places/bethlehem.png" alt="bethlehem" />
+    </div>
+    <div id="nightsky"></div>
+    <script>
+      var _transitions = [
+        {
+          transitionForward: () => night(),
+          index: 1
+        }
+      ];
+
+      const target = '#nightsky';
+
+      // ========= Constants ========= //
+      const width = document.querySelector(target).offsetWidth;
+      const height = document.querySelector(target).offsetHeight;
+      const duration = 3000;
+
+      // ========= Create SVG ========= //
+      const svg = d3.select(target).append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      // ========= Gradient ========= //
+      const defs = svg.append('defs');
+
+      const gradient = defs.append('linearGradient')
+        .attr('id', 'gradient')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', height);
+
+      gradient.append('stop')
+        .attr('offset', '0%')
+        .style('stop-color', '#000270')
+        .style('stop-opacity', 1);
+
+      gradient.append('stop')
+        .attr('offset', '100%')
+        .style('stop-color', '#1c1fc2')
+        .style('stop-opacity', 0.2);
+
+      // ========= Append rect ========= //
+      const rect = svg.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', 'url(#gradient)')
+        .attr('opacity', 0);
+
+      function night() {
+        rect.transition().duration(duration)
+          .attr('opacity', 0.6);
+      }
+    </script>
+  </body>
+</html>

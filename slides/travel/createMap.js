@@ -8,14 +8,14 @@ function createMap(target) {
       name: 'Nazareth',
       x: 955,
       y: 268.76028,
-      r: 7,
+      r: 12,
       fill: '#695958'
     },
     {
       name: 'Bethlehem',
       x: 923,
       y: 723.76028,
-      r: 7,
+      r: 12,
       fill: '#695958'
     }
   ];
@@ -25,15 +25,24 @@ function createMap(target) {
   };
 
   const svg = d3.select(target);
+  const defs = svg.append('defs');
+
+  // ========= Filter ========= //
+  defs.append('filter')
+    .attr('id', 'filter-blur')
+    .append('feGaussianBlur')
+      .attr('in', 'SourceGraphic')
+      .attr('stdDeviation', 1);
 
   // ========= Add travel path ========= //
   const travelPath = svg.append('path')
     .attr('class', 'travel-path')
     .attr('d', path.d)
     .attr('transform', `translate(${path.translate})`)
-    .attr('stroke', '#DE3C4B')
-    .attr('stroke-width', 5)
+    .attr('stroke', 'brown')
+    .attr('stroke-width', 9)
     .attr('fill', 'none')
+    .attr('filter', 'url(#filter-blur)')
     .attr('stroke-linecap', 'round');
 
   path.length = travelPath.node().getTotalLength();
@@ -44,7 +53,7 @@ function createMap(target) {
 
   function animateTravel() {
     travelPath.transition()
-      .duration(25000)
+      .duration(22000)
       .ease(d3.easeLinear)
       .attr('stroke-dashoffset', 0);
   }
@@ -70,7 +79,7 @@ function createMap(target) {
       .attr('transform', d => `translate(${d.x - 15} ${d.y})`)
       .attr('text-anchor', 'end')
       .attr('font-family', 'Verdana')
-      .attr('font-size', '20px')
+      .attr('font-size', '25px')
       .text(d => d.name);
 
   setTimeout(animateTravel, 1000);

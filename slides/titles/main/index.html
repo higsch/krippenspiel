@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+  <head>
+    <script src="../../lib/d3.v5.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="title"></div>
+
+    <script>
+      var _transitions = [
+        {
+          transitionForward: () => showTitle(),
+          index: 1
+        },
+        {
+          transitionForward: () => hideTitle(),
+          index: 10
+        }
+      ];
+
+      const target = '#title'
+      
+      // ========= Setup dimensions and constants ========= //
+      const width = document.querySelector(target).offsetWidth;
+      const height = document.querySelector(target).offsetHeight;
+      const duration = 1000;
+
+      // ========= Create SVG ========= //
+      const svg = d3.select(target).append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      // ========= Defs ========= //
+      const defs = svg.append('defs');
+
+      // ========= Blur filter ========= //
+      defs.append('filter')
+        .attr('id', 'filter-blur')
+        .append('feGaussianBlur')
+          .attr('in', 'SourceGraphic')
+          .attr('stdDeviation', 5);
+
+      // ========= Create g ========= //
+      const g = svg.append('g')
+        .attr('transform', `translate(${width / 2} ${height * 0.37})`);
+
+      // ========= Create song title ========= //
+      const title = g.append('text')
+        .attr('opacity', 0)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'white')
+        .attr('font-family', 'Verdana')
+        .attr('font-size', '100px')
+        .attr('font-variant', 'small-caps')
+        .text('Die Weihnachtsgeschichte');
+
+      const titleBlur = g.append('text')
+        .attr('opacity', 0)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'white')
+        .attr('font-family', 'Verdana')
+        .attr('font-size', '100px')
+        .attr('font-variant', 'small-caps')
+        .text('Die Weihnachtsgeschichte')
+        .attr('filter', 'url(#filter-blur)');
+
+      const subTitle = g.append('text')
+        .attr('opacity', 0)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'white')
+        .attr('font-family', 'Verdana')
+        .attr('font-size', '40px')
+        .attr('transform', 'translate(0 70)')
+        .text('Heute stellen wir alles in den Schatten');
+
+      function showTitle() {
+        title.transition().duration(duration)
+          .attr('opacity', 1);
+        titleBlur.transition().duration(duration)
+          .attr('opacity', 1);
+        subTitle.transition().duration(duration)
+          .attr('opacity', 1);
+      }
+
+      function hideTitle() {
+        title.transition().duration(duration)
+          .attr('opacity', 0);
+        titleBlur.transition().duration(duration)
+          .attr('opacity', 0);
+        subTitle.transition().duration(duration)
+          .attr('opacity', 0);
+      }
+    </script>
+  </body>
+</html>

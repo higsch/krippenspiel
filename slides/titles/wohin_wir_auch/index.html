@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+  <head>
+    <script src="../../lib/d3.v5.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="title"></div>
+
+    <script>
+      var _transitions = [
+        {
+          transitionForward: () => showTitle(),
+          index: 3
+        },
+        {
+          transitionForward: () => hideTitle(),
+          index: 4
+        }
+      ];
+
+      const target = '#title'
+      
+      // ========= Setup dimensions and constants ========= //
+      const width = document.querySelector(target).offsetWidth;
+      const height = document.querySelector(target).offsetHeight;
+      const duration = 1000;
+
+      // ========= Create SVG ========= //
+      const svg = d3.select(target).append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      // ========= Create g ========= //
+      const g = svg.append('g')
+        .attr('transform', `translate(${width / 2} ${height * 0.1})`);
+
+      // ========= Create song title ========= //
+      const title = g.append('text')
+        .attr('opacity', 0)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'white')
+        .attr('font-family', 'Verdana')
+        .attr('font-size', '40px')
+        .text('Lied: Wohin wir auch geh\'n, Gott geht mit');
+
+      function showTitle() {
+        title.transition().duration(duration)
+          .attr('opacity', 1);
+      }
+
+      function hideTitle() {
+        title.transition().duration(duration)
+          .attr('opacity', 0);
+      }
+    </script>
+  </body>
+</html>
