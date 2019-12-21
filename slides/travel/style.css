@@ -11,7 +11,7 @@ html, body {
 #map-wrapper {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to bottom right, #5092CA, #A7C8E4, #A7C8E4);
+  background-image: linear-gradient(to bottom right, rgb(45, 136, 216), #A7C8E4, #A7C8E4);
 }
 
 svg#map {
