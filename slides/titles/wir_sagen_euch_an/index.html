@@ -25,32 +25,93 @@
       const width = document.querySelector(target).offsetWidth;
       const height = document.querySelector(target).offsetHeight;
       const duration = 1000;
+      const widthOffset = 60;
+      const heightOffset = 20;
+
+      const symbolGenerator = d3.symbol()
+        .type(d3.symbolStar)
+        .size(300);
+
+      const starPath = symbolGenerator();
 
       // ========= Create SVG ========= //
       const svg = d3.select(target).append('svg')
         .attr('width', width)
         .attr('height', height);
 
+      // ========= Defs ========= //
+      const defs = svg.append('defs');
+
+      // ========= Blur filter ========= //
+      defs.append('filter')
+        .attr('id', 'filter-blur')
+        .append('feGaussianBlur')
+          .attr('in', 'SourceGraphic')
+          .attr('stdDeviation', 8);
+
       // ========= Create g ========= //
       const g = svg.append('g')
-        .attr('transform', `translate(${width / 2} ${height * 0.1})`);
+        .attr('transform', `translate(${width / 2} ${height * 0.15})`)
+        .attr('opacity', 1);
+
+      g.append('rect')
+        .attr('class', 'bg-glow')
+        .attr('fill', 'white')
+        .attr('rx', 10)
+        .attr('ry', 10)
+        .attr('filter', 'url(#filter-blur)');
+
+      g.append('rect')
+        .attr('class', 'bg')
+        .attr('fill', 'black')
+        .attr('rx', 10)
+        .attr('ry', 10);
+
+      g.append('path')
+        .attr('class', 'star-left')
+        .attr('d', starPath)
+        .attr('fill', 'white');
+
+      g.append('path')
+        .attr('class', 'star-right')
+        .attr('d', starPath)
+        .attr('fill', 'white');
 
       // ========= Create song title ========= //
       const title = g.append('text')
-        .attr('opacity', 0)
         .attr('text-anchor', 'middle')
         .attr('fill', 'white')
         .attr('font-family', 'Verdana')
-        .attr('font-size', '40px')
+        .attr('font-size', '60px')
         .text('Lied: Wir sagen euch an den lieben Advent');
 
+      const textDim = title.node().getBBox();
+
+      d3.select('.bg-glow')
+        .attr('x', textDim.x - widthOffset)
+        .attr('y', textDim.y - heightOffset)
+        .attr('width', textDim.width + 2 * widthOffset)
+        .attr('height', textDim.height + 2 * heightOffset);
+
+      d3.select('.bg')
+        .attr('x', textDim.x - widthOffset)
+        .attr('y', textDim.y - heightOffset)
+        .attr('width', textDim.width + 2 * widthOffset)
+        .attr('height', textDim.height + 2 * heightOffset);
+
+      d3.select('.star-left')
+        .attr('transform', `translate(${textDim.x - widthOffset / 2} ${-heightOffset})`);
+
+      d3.select('.star-right')
+        .attr('transform', `translate(${-textDim.x + widthOffset / 2} ${-heightOffset})`)
+
       function showTitle() {
-        title.transition().duration(duration)
+        g.transition().duration(duration)
           .attr('opacity', 1);
       }
 
       function hideTitle() {
-        title.transition().duration(duration)
+        g.transition().duration(duration)
           .attr('opacity', 0);
       }
     </script>

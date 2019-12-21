@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+  <head>
+    <script src="../lib/d3.v5.min.js"></script>
+    <script src="../lib/chroma.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="black"></div>
+    <script>
+      var _transitions = [
+        {
+          transitionForward: () => showBlack(),
+          index: 2
+        },
+        {
+          transitionForward: () => hideBlack(),
+          index: 4
+        }
+      ];
+
+      const target = '#black';
+
+      // ========= Constants ========= //
+      const width = document.querySelector(target).offsetWidth;
+      const height = document.querySelector(target).offsetHeight;
+      const duration = 2000;
+
+      // ========= Create SVG ========= //
+      const svg = d3.select(target).append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      // ========= Append rect ========= //
+      const rect = svg.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', '#000000')
+        .attr('opacity', 0);
+
+      function showBlack() {
+        rect.transition().duration(duration)
+          .attr('opacity', 1);
+      }
+
+      function hideBlack() {
+        rect.transition().duration(duration)
+          .attr('opacity', 0);
+      }
+    </script>
+  </body>
+</html>
