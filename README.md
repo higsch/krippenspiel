@@ -13,3 +13,4 @@ cd krippenspiel
 npm install
 npm run start
 ```
+Then best open Chrome at `localhost:8000`.
